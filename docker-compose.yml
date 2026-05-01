@@ -1,0 +1,16 @@
+# MongoDB local para desarrollo. Requiere Docker Desktop (Windows) en ejecución.
+# Uso: docker compose up -d
+# Parar: docker compose down  (los datos persisten en el volumen elite_mongo_data)
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: elite-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - elite_mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  elite_mongo_data:

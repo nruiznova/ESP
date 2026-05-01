@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elite Superior Construction — Website
 
-## Getting Started
+Next.js 16 (App Router) site for **Elite Superior Construction**: unified **commercial** and **residential** lines, with MongoDB, Cloudinary uploads, NextAuth admin, and Resend for lead emails.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js 16** + **React 19** + **TypeScript** + **Tailwind CSS 4**
+- **MongoDB Atlas** + **Mongoose**
+- **NextAuth.js v5** (credentials login for `/admin`)
+- **Cloudinary** (image uploads from admin)
+- **Resend** (optional lead notification emails)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Copy environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-## Learn More
+2. Fill in `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+   | Variable | Purpose |
+   |----------|---------|
+   | `MONGODB_URI` | MongoDB connection string |
+   | `AUTH_SECRET` | Random string (32+ chars), e.g. `openssl rand -base64 32` |
+   | `NEXTAUTH_URL` | Site URL (`http://localhost:3000` in dev, production URL in prod) |
+   | `ADMIN_EMAIL` | Admin login email |
+   | `ADMIN_PASSWORD_HASH` | Bcrypt hash of admin password |
+   | `CLOUDINARY_*` | Cloud name, API key, secret |
+   | `RESEND_API_KEY` | Optional; omit to skip emails |
+   | `CONTACT_EMAIL` | Where lead emails are sent |
+   | `RESEND_FROM_EMAIL` | Verified sender in Resend (or use `onboarding@resend.dev` for tests) |
+   | `WHATSAPP_NUMBER` | Digits only, e.g. `18644164728` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Generate admin password hash** (Node):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   node -e "require('bcryptjs').hash('YourPassword',10).then(console.log)"
+   ```
 
-## Deploy on Vercel
+   Put the output in `ADMIN_PASSWORD_HASH`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Install and run:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+- Public site: [http://localhost:3000](http://localhost:3000)  
+- Admin login: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+
+## Project structure (high level)
+
+- `app/(public)/` — Home, Commercial, Residential, Portfolio, Contact
+- `app/admin/login/` — Login (no auth layout)
+- `app/admin/(protected)/` — Dashboard, Services, Portfolio, Testimonials, Settings, Leads
+- `app/api/` — REST-style routes for CMS + NextAuth
+- `components/sections/` — Marketing sections (hero, stats, etc.)
+- `models/` — Mongoose schemas
+
+## Deploy
+
+Recommended: **Vercel**. Set the same env vars in the project settings. Ensure `NEXTAUTH_URL` matches the production domain.
+
+## License
+
+Private / client project.

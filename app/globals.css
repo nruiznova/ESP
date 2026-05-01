@@ -1,26 +1,136 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Light brand — white / blue / red (ESC logo) */
+  --color-dark: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef2f7;
+  --color-navy: #061f3d;
+  --color-navy-muted: #0f3558;
+  --color-stone: #0066cc;
+  --color-stone-light: #3385d6;
+  --color-cream: #0a1628;
+  --color-cream-muted: #475569;
+  --color-red: #ff2d37;
+  --color-red-dark: #d41f28;
+  --color-red-light: #ff575f;
+  --color-muted: #64748b;
+
+  /* Fonts — populated via next/font CSS variables */
+  --font-display: var(--font-bebas), "Bebas Neue", sans-serif;
+  --font-body: var(--font-dm-sans), "DM Sans", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-dark);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-stone);
+  color: #fff;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-stone);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-stone-light);
+}
+
+/* ─── Typography scale ─────────────────────────────────── */
+.text-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* ─── Grain overlay (applied to sections) ─────────────── */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Red accent line ──────────────────────────────────── */
+.accent-line {
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--color-red);
+  border-radius: 2px;
+}
+
+/* ─── Section divider ──────────────────────────────────── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-stone) 20%,
+    var(--color-stone) 80%,
+    transparent
+  );
+  opacity: 0.35;
+}
+
+/* ─── Custom focus ring ────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-stone);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Image hover effect ───────────────────────────────── */
+.img-hover {
+  overflow: hidden;
+}
+.img-hover img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-hover:hover img {
+  transform: scale(1.04);
+}
+
+/* ─── Admin sidebar ────────────────────────────────────── */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
 }
