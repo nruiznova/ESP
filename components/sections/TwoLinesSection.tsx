@@ -6,7 +6,13 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
-export function TwoLinesSection() {
+export function TwoLinesSection({
+  commercialImageUrl = "/images/commercial-home.png",
+  residentialImageUrl = "/images/residential-home.png",
+}: {
+  commercialImageUrl?: string;
+  residentialImageUrl?: string;
+}) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -21,7 +27,7 @@ export function TwoLinesSection() {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=75"
+            src={commercialImageUrl}
             alt="Commercial Construction"
             fill
             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700"
@@ -61,7 +67,7 @@ export function TwoLinesSection() {
           transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=75"
+            src={residentialImageUrl}
             alt="Residential Remodeling"
             fill
             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700"

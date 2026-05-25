@@ -6,6 +6,7 @@ import { PortfolioPreview } from "@/components/sections/PortfolioPreview";
 import { CTABanner } from "@/components/sections/CTABanner";
 import { getActiveServicesForSite } from "@/lib/data/services";
 import { getProjectsForCategoryPreview } from "@/lib/data/projects";
+import { getSiteImages } from "@/lib/data/siteImages";
 
 export const metadata: Metadata = {
   title: "Residential Remodeling",
@@ -14,19 +15,6 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = "force-dynamic";
-
-const beforeAfterProjects = [
-  {
-    before: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=75&grayscale",
-    after: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=75",
-    title: "Kitchen Transformation",
-  },
-  {
-    before: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=75&grayscale",
-    after: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=75",
-    title: "Custom Tile Shower",
-  },
-];
 
 async function getResidentialServices() {
   return getActiveServicesForSite("residential");
@@ -37,9 +25,10 @@ async function getResidentialProjects() {
 }
 
 export default async function ResidentialPage() {
-  const [services, projects] = await Promise.all([
+  const [services, projects, siteImages] = await Promise.all([
     getResidentialServices(),
     getResidentialProjects(),
+    getSiteImages(),
   ]);
 
   return (
@@ -47,7 +36,7 @@ export default async function ResidentialPage() {
       {/* Hero */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=80"
+          src={siteImages.residentialBanner}
           alt="Residential Remodeling"
           fill
           priority
@@ -98,7 +87,7 @@ export default async function ResidentialPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {beforeAfterProjects.map((p, i) => (
+            {siteImages.residentialBeforeAfter.map((p, i) => (
               <div key={i} className="space-y-4">
                 <h3 className="text-display text-2xl text-cream">{p.title}</h3>
                 <div className="grid grid-cols-2 gap-2">

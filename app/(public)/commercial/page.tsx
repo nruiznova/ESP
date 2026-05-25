@@ -6,6 +6,7 @@ import { PortfolioPreview } from "@/components/sections/PortfolioPreview";
 import { CTABanner } from "@/components/sections/CTABanner";
 import { getActiveServicesForSite } from "@/lib/data/services";
 import { getProjectsForCategoryPreview } from "@/lib/data/projects";
+import { getSiteImages } from "@/lib/data/siteImages";
 
 export const metadata: Metadata = {
   title: "Commercial Construction",
@@ -31,9 +32,10 @@ async function getCommercialProjects() {
 }
 
 export default async function CommercialPage() {
-  const [services, projects] = await Promise.all([
+  const [services, projects, siteImages] = await Promise.all([
     getCommercialServices(),
     getCommercialProjects(),
+    getSiteImages(),
   ]);
 
   return (
@@ -41,7 +43,7 @@ export default async function CommercialPage() {
       {/* Page Hero */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=80"
+          src={siteImages.commercialBanner}
           alt="Commercial Construction"
           fill
           priority
@@ -109,7 +111,7 @@ export default async function CommercialPage() {
 
           <div className="relative h-96 lg:h-[500px] overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+              src={siteImages.commercialSection}
               alt="Commercial work"
               fill
               className="object-cover"

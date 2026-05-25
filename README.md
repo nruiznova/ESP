@@ -41,7 +41,21 @@ Next.js 16 (App Router) site for **Elite Superior Construction**: unified **comm
 
    Put the output in `ADMIN_PASSWORD_HASH`.
 
-4. Install and run:
+4. **MongoDB local (Docker)** — optional for development:
+
+   ```bash
+   docker compose up -d
+   ```
+
+   In `.env.local`:
+
+   ```env
+   MONGODB_URI=mongodb://127.0.0.1:27017/elite
+   ```
+
+   Start MongoDB **before** or restart `npm run dev` after the container is running so the app can connect. Data persists in the `elite_mongo_data` volume.
+
+5. Install and run:
 
    ```bash
    npm install
@@ -55,7 +69,7 @@ Next.js 16 (App Router) site for **Elite Superior Construction**: unified **comm
 
 - `app/(public)/` — Home, Commercial, Residential, Portfolio, Contact
 - `app/admin/login/` — Login (no auth layout)
-- `app/admin/(protected)/` — Dashboard, Services, Portfolio, Testimonials, Settings, Leads
+- `app/admin/(protected)/` — Dashboard, Services, Portfolio, Testimonials, Site Images, Settings, Leads
 - `app/api/` — REST-style routes for CMS + NextAuth
 - `components/sections/` — Marketing sections (hero, stats, etc.)
 - `models/` — Mongoose schemas

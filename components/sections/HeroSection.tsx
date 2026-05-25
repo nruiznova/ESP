@@ -18,7 +18,7 @@ const fadeUp = {
   }),
 };
 
-export function HeroSection() {
+export function HeroSection({ heroImageUrl = "/images/hero-home.png" }: { heroImageUrl?: string }) {
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function HeroSection() {
       {/* Background image with parallax */}
       <div ref={parallaxRef} className="absolute inset-0 scale-110">
         <Image
-          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80"
+          src={heroImageUrl}
           alt="Elite Superior Construction — premium building"
           fill
           priority

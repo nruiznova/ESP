@@ -7,6 +7,7 @@ import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel
 import { CTABanner } from "@/components/sections/CTABanner";
 import { getActiveServicesForSite } from "@/lib/data/services";
 import { getProjectsForHomePreview } from "@/lib/data/projects";
+import { getSiteImages } from "@/lib/data/siteImages";
 import { connectDB } from "@/lib/mongodb";
 import { Testimonial } from "@/models/Testimonial";
 
@@ -39,17 +40,21 @@ async function getTestimonials() {
 }
 
 export default async function HomePage() {
-  const [services, projects, testimonials] = await Promise.all([
+  const [services, projects, testimonials, siteImages] = await Promise.all([
     getServices(),
     getProjects(),
     getTestimonials(),
+    getSiteImages(),
   ]);
 
   return (
     <>
-      <HeroSection />
+      <HeroSection heroImageUrl={siteImages.homeHero} />
       <StatsBar />
-      <TwoLinesSection />
+      <TwoLinesSection
+        commercialImageUrl={siteImages.homeCommercial}
+        residentialImageUrl={siteImages.homeResidential}
+      />
       <ServiceGrid
         services={services}
         title="Our Services"

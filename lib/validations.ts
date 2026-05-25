@@ -58,8 +58,30 @@ export const settingsSchema = z.object({
   hours: z.string(),
 });
 
+const imageRefSchema = z
+  .object({ url: z.string().url(), publicId: z.string() })
+  .nullable()
+  .optional();
+
+const beforeAfterItemSchema = z.object({
+  title: z.string(),
+  before: imageRefSchema,
+  after: imageRefSchema,
+});
+
+export const siteImagesSchema = z.object({
+  homeHero: imageRefSchema,
+  homeCommercial: imageRefSchema,
+  homeResidential: imageRefSchema,
+  commercialBanner: imageRefSchema,
+  commercialSection: imageRefSchema,
+  residentialBanner: imageRefSchema,
+  residentialBeforeAfter: z.array(beforeAfterItemSchema).length(2),
+});
+
 export type LeadInput = z.infer<typeof leadSchema>;
 export type ServiceInput = z.infer<typeof serviceSchema>;
 export type ProjectInput = z.infer<typeof projectSchema>;
 export type TestimonialInput = z.infer<typeof testimonialSchema>;
 export type SettingsInput = z.infer<typeof settingsSchema>;
+export type SiteImagesInput = z.infer<typeof siteImagesSchema>;
