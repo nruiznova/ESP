@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getAllProjectsForSite } from "@/lib/data/projects";
 import { PortfolioClient } from "./PortfolioClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
