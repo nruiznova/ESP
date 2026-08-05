@@ -206,7 +206,7 @@ export function ContactClient({ settings }: { settings: Settings | null }) {
                     ),
                     label: "Phone",
                     value: s.phone || defaultSettings.phone!,
-                    href: `tel:${s.phone}`,
+                    href: `tel:${(s.phone || defaultSettings.phone!).replace(/[^\d+]/g, "")}`,
                   },
                   {
                     icon: (
@@ -216,7 +216,7 @@ export function ContactClient({ settings }: { settings: Settings | null }) {
                     ),
                     label: "Email",
                     value: s.email || defaultSettings.email!,
-                    href: `mailto:${s.email}`,
+                    href: `mailto:${s.email || defaultSettings.email}`,
                   },
                   {
                     icon: (
@@ -226,7 +226,7 @@ export function ContactClient({ settings }: { settings: Settings | null }) {
                     ),
                     label: "Address",
                     value: s.address || defaultSettings.address!,
-                    href: `https://maps.google.com/?q=${encodeURIComponent(s.address || "")}`,
+                    href: `https://maps.google.com/?q=${encodeURIComponent(s.address || defaultSettings.address || "")}`,
                   },
                   {
                     icon: (

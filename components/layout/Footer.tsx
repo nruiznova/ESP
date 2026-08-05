@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BRAND_LOGO_LIGHT } from "@/lib/brand";
+import type { SiteSettings } from "@/lib/data/settings";
+import { SITE_SETTINGS_DEFAULTS } from "@/lib/data/settings";
 
 const serviceLinks = [
   { href: "/commercial", label: "Commercial Construction" },
@@ -16,8 +18,10 @@ const quickLinks = [
   { href: "/contact", label: "Get a Quote" },
 ];
 
-export function Footer() {
+export function Footer({ settings }: { settings?: SiteSettings | null }) {
   const year = new Date().getFullYear();
+  const s = settings ?? SITE_SETTINGS_DEFAULTS;
+  const telHref = `tel:${s.phone.replace(/[^\d+]/g, "")}`;
 
   return (
     <footer className="bg-surface border-t border-stone/15 relative overflow-hidden">
@@ -46,19 +50,19 @@ export function Footer() {
 
             <div className="flex flex-col gap-2 text-sm">
               <a
-                href="tel:+18644164728"
+                href={telHref}
                 className="text-stone hover:text-cream transition-colors flex items-center gap-2"
               >
-                <span className="text-red">—</span> +1 (864) 416-4728
+                <span className="text-red">—</span> {s.phone}
               </a>
               <a
-                href="mailto:info@elitesuperiorconstruction.com"
+                href={`mailto:${s.email}`}
                 className="text-stone hover:text-cream transition-colors flex items-center gap-2"
               >
-                <span className="text-red">—</span> info@elitesuperiorconstruction.com
+                <span className="text-red">—</span> {s.email}
               </a>
               <span className="text-muted flex items-center gap-2">
-                <span className="text-red">—</span> 188 Blalock Rd B, Boiling Springs, SC 29316
+                <span className="text-red">—</span> {s.address}
               </span>
             </div>
           </div>

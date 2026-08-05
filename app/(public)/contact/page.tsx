@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getSettingsForSite } from "@/lib/data/settings";
 import { ContactClient } from "./ContactClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Contact — Get a Free Estimate",
   description:

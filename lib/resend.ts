@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { getSettingsForSite } from "@/lib/data/settings";
 
 const fromEmail =
   process.env.RESEND_FROM_EMAIL ?? "Elite Superior Construction <onboarding@resend.dev>";
@@ -20,7 +21,9 @@ interface LeadEmailData {
 
 export async function sendLeadNotification(data: LeadEmailData) {
   const resend = getResend();
-  const to = process.env.CONTACT_EMAIL;
+  const settings = await getSettingsForSite();
+  // Prefer admin Settings so public contact email and lead inbox stay in sync
+  const to = settings.email || process.env.CONTACT_EMAIL;
   if (!resend || !to) return;
 
   const { name, email, phone, projectType, description, budgetRange } = data;

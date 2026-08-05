@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import { Lead } from "@/models/Lead";
 import { leadSchema } from "@/lib/validations";
 import { sendLeadNotification } from "@/lib/resend";
+import { getSettingsForSite } from "@/lib/data/settings";
 import { auth } from "@/auth";
 
 export async function GET(req: NextRequest) {
@@ -36,7 +37,8 @@ export async function POST(req: NextRequest) {
     // Fail silently — lead is saved regardless
   }
 
-  const whatsappNumber = process.env.WHATSAPP_NUMBER;
+  const settings = await getSettingsForSite();
+  const whatsappNumber = settings.whatsapp || process.env.WHATSAPP_NUMBER;
   const whatsappUrl = whatsappNumber
     ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         `New inquiry from ${parsed.data.name} (${parsed.data.projectType}): ${parsed.data.description.slice(0, 200)}`
